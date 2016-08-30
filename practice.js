@@ -2,18 +2,25 @@
   // 1) What is the purpose of the 'this keyword'?
 
       //Answer
+      //it is an object constriction that does not have a value, the value of this when used in a function, is the object that owns the function, the value of this when used in an object, is the object itself
 
   // 2) What are the four rules that govern what the 'this keyword' is bound to and describe each?
 
       //Answer
+      //1- Whenever JavaScript’s call or apply method is used, this is explicitly defined.
+      //2- Whenever a constructor function is used, this refers to the specific instance of the object that is created and returned by the constructor function.
+      //3- Whenever a function is called by a preceding dot, the object before that dot is this.
+      //4- Whenever a function is contained in the global scope, the value of this inside of that function will be the window object.
 
   // 3) What is the difference between call and apply?
 
       //Answer
+      //the difference between call and apply . Both can be called on functions, which they run in the context of the first argument. In call the subsequent arguments are passed in to the function as they are, while apply expects the second argument to be an array that it unpacks as arguments for the called function.
 
   // 4) What does .bind do?
 
       //Answer
+      //It is called on function prototype. This method creates a function whose body is similar to the function on which it is called but the 'this' refers to the first parameter passed to the bind method
 
 
 //Next Problem
@@ -24,10 +31,19 @@
   //getUsername --> which is a function that returns the current object's username property. *Don't use 'user' instead use the 'this' keyword*
 
     //Code Here
+    var user = {
+      username:'mouied'
+      , email:'mouied@gmail.com'
+      , getUsername: function () {
+
+        return this.username;
+
+      }
+    };
 
 //Now, invoke the getUsername method and verify you got the username of the object and not anything else.
 
-
+user.getUsername();
 //Next Problem
 
 
@@ -35,8 +51,21 @@
 
   //Function Invocations Here
 
+  function Car(make, model, year) {
+    this.make = make;
+    this.model = model;
+    this.year = year;
+    this.move = 0;
+    this.moveCar = function (){
+      return this.move += 10;
+
+    }
+  }
+
 var prius = new Car('Toyota', 'Prius', 2011);
 var mustang = new Car('Ford', 'Mustang', 2013);
+
+
 
 prius.moveCar(); //increments prius' move property by 10. Returns the new move property.
 mustang.moveCar(); //increments mustang' move property by 10. Returns the new move property.
@@ -56,6 +85,11 @@ var getYear = function(){
 //Note(no tests)
   //Code Here
 
+  var priusYear = getYear.bind(prius);
+  console.log(priusYear());
+
+  var mustangYear = getYear.bind(mustang);
+  console.log(mustangYear());
 
 //New Problem
 
@@ -69,8 +103,8 @@ var getMyUsername = function() {
  return this.username;
 };
 
-var userName = getMyUsername(); //Fix this
-
+var userName = getMyUsername.call(myUser);
+console.log(userName)
 //Above you're given an object, a function, and a setTimeout invocation. After 5 seconds, what will the getUsername function return?
 //Note(no tests)
   //Answer Here
